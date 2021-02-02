@@ -8,29 +8,25 @@ import {
   UploadedFile,
   UseInterceptors,
 } from '@nestjs/common';
-import { FileInterceptor } from '@nestjs/platform-express';
+import { FilesInterceptor } from '@nestjs/platform-express';
 import { ApiBody, ApiConsumes } from '@nestjs/swagger';
 import { Response } from 'express';
+import { FileNotExistsException } from '../common/Exception/file-error.exception';
 import { CreateFileDto } from './@dtos/file.create.dto';
 import { FileService } from './file.service';
-import { FileCreateType } from './@interfaces/file.create.interface';
-import { FileNotExistsException } from '../common/Exception/file-error.exception';
 
 @Controller('file')
 export class FileController {
   constructor(private filesService: FileService) {}
 
   @Post('/')
-  @UseInterceptors(FileInterceptor('file'))
+  @UseInterceptors(FilesInterceptor('files'))
   @ApiConsumes('multipart/form-data')
   @ApiBody({
     type: CreateFileDto,
   })
-  upload(@UploadedFile() file: FileCreateType) {
-    return {
-      message: 'File has been Uploaded',
-      file: file,
-    };
+  upload(@UploadedFile() files: CreateFileDto) {
+    console.log(JSON.stringify(files, null, 2));
   }
 
   @Get('/:id')
@@ -62,15 +58,11 @@ export class FileController {
   }
 
   @Delete('/:id')
-  async deleteFile(@Param('id') id: string): Promise<CreateFileDto> {
-    const file = await this.filesService.findInfo(id);
+  async deleteFile(@Param('id') id: string): Promise<void> {
+    await this.filesService.findInfo(id);
     const filestream = await this.filesService.deleteFile(id);
     if (!filestream) {
       throw new FileNotExistsException();
     }
-    return {
-      message: 'File has been deleted',
-      file: file,
-    };
   }
 }

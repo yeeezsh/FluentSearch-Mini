@@ -4,6 +4,12 @@ export class CreateFileDto {
   @ApiProperty()
   owner: string;
 
-  @ApiProperty({ type: FileInfoDto })
-  file: FileInfoDto;
+  @ApiProperty({
+    type: 'array',
+    items: {
+      type: 'string',
+      format: 'binary',
+    },
+  })
+  files: FileInfoDto[];
 }
