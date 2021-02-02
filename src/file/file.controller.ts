@@ -47,7 +47,7 @@ export class FileController {
           size: file.size,
           filename: file.filename,
           extension: (file.filename.split('.').pop() as any) || '',
-          contentType: (file.filename.split('.').pop() as any) || '',
+          contentType: file.contentType,
           width: 0,
           height: 0,
           dpi: 72,
