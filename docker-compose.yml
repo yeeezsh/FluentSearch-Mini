@@ -1,7 +1,7 @@
 version: '3.4'
 services:
-  fluentsearch-bff:
-    container_name: FluentSearch-BFF
+  fluentsearch-mini:
+    container_name: FluentSearch-Mini
     restart: always
     depends_on:
       - fluentsearch-bff-mongos
