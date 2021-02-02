@@ -36,4 +36,21 @@ export class FileService {
   async deleteFile(id: string): Promise<boolean> {
     return await this.fileModel.delete(id);
   }
+
+  async getImageResolution(
+    id: string,
+  ): Promise<{ id: string; width: number; height: number }> {
+    try {
+      const file = await this.fileModel.downloadFile(id);
+      const { width, height } = imageSize(file);
+      if (!width || !height) throw new Error('cannot get w/h');
+      return {
+        id,
+        width,
+        height,
+      };
+    } catch (err) {
+      throw err;
+    }
+  }
 }
