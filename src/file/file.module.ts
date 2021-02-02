@@ -5,6 +5,7 @@ import { DatabaseModule } from './../database/database.module';
 import { databaseProviders } from './../database/database.provider';
 import { GridFsMulterConfigService } from './file.config';
 import { FileController } from './file.controller';
+import { fileProviders } from './file.providers';
 import { FileService } from './file.service';
 
 @Module({
@@ -18,6 +19,6 @@ import { FileService } from './file.service';
     }),
   ],
   controllers: [FileController],
-  providers: [FileService, ...databaseProviders],
+  providers: [FileService, ...databaseProviders, ...fileProviders],
 })
 export class FileModule {}
