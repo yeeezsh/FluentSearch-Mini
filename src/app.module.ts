@@ -5,6 +5,7 @@ import { AppResolver } from './app.resolver';
 import { AppService } from './app.service';
 import { ConfigModule } from './config/config.module';
 import { DatabaseModule } from './database/database.module';
+import { FileModule } from './file/file.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { DatabaseModule } from './database/database.module';
       autoSchemaFile: 'schema.gql',
       sortSchema: true,
     }),
+    FileModule,
   ],
   controllers: [AppController],
   providers: [AppService, AppResolver],
