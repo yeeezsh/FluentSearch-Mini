@@ -4461,10 +4461,10 @@ flatted@^2.0.0:
   resolved "https://registry.yarnpkg.com/flatted/-/flatted-2.0.2.tgz#4575b21e2bcee7434aa9be662f4b7b5f9c2b5138"
   integrity sha512-r5wGx7YeOwNWNlCA0wQ86zKyDLMQr+/RB8xy74M4hTphfmjlijTSSXGuH8rnvKZnfT9i+75zmd8jcKdMR4O6jA==
 
-fluentsearch-types@0.0.17:
-  version "0.0.17"
-  resolved "https://registry.yarnpkg.com/fluentsearch-types/-/fluentsearch-types-0.0.17.tgz#a61a00aa67c77cf344f853c6bc3724267f950297"
-  integrity sha512-TWVDv+nnNX2m2pkpupUVXnTKdGGCcSSdESkDgIXTp5kpB4Ode8qs6lV8CF10LQkYkbn/+/mdsJefdMjIfON4ig==
+fluentsearch-types@0.0.18:
+  version "0.0.18"
+  resolved "https://registry.yarnpkg.com/fluentsearch-types/-/fluentsearch-types-0.0.18.tgz#e78c69e5554cb0887c1b6a59c1d9a8a8ea2d33e4"
+  integrity sha512-awyvzG0l2C951Fa5vqn1UU3JFs30imKYcI/BKOX4jhaLFLi/qTiKx9BD78cPfpL1VicbsmdKcQ7WCkdjojlkWg==
 
 follow-redirects@^1.10.0:
   version "1.13.2"
