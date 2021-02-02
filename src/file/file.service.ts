@@ -1,9 +1,10 @@
 import { Inject, Injectable } from '@nestjs/common';
+import { imageSize } from 'image-size';
 import { MongoGridFS } from 'mongo-gridfs';
 import { GridFSBucketReadStream } from 'mongodb';
-import { FileInfoDto } from './@dtos/file.info.dto';
-import { DATABASE_CONNECTION } from '../database/constants/database.constant';
 import { FileNotFound } from '../common/Exception/file-error.exception';
+import { DATABASE_CONNECTION } from '../database/constants/database.constant';
+import { FileInfoDto } from './@dtos/file.info.dto';
 
 @Injectable()
 export class FileService {

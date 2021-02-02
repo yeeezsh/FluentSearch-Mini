@@ -41,6 +41,9 @@ export class FileController {
     @Body() body: CreateFileDto,
   ) {
     for (const file of files) {
+      const { width, height } = await this.filesService.getImageResolution(
+        file.id,
+      );
       const parse: Omit<AllFile, '_id'> = {
         owner: body.owner,
         meta: {
@@ -48,8 +51,8 @@ export class FileController {
           filename: file.filename,
           extension: (file.filename.split('.').pop() as any) || '',
           contentType: file.contentType,
-          width: 0,
-          height: 0,
+          width,
+          height,
           dpi: 72,
         },
         zone: ZoneEnum.TH,
