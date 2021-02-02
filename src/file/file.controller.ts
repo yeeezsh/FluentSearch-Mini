@@ -1,7 +1,10 @@
 import {
+  Body,
   Controller,
   Delete,
   Get,
+  Inject,
+  Logger,
   Param,
   Post,
   Res,
@@ -11,13 +14,21 @@ import {
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { ApiBody, ApiConsumes } from '@nestjs/swagger';
 import { Response } from 'express';
+import { FileTypeEnum, ZoneEnum } from 'fluentsearch-types';
+import { Model } from 'mongoose';
 import { FileNotExistsException } from '../common/Exception/file-error.exception';
 import { CreateFileDto } from './@dtos/file.create.dto';
+import { HTTPFile } from './@interfaces/http-file.interface';
+import { FILE_MODEL } from './file.providers';
 import { FileService } from './file.service';
+import { AllFile, AllFileDoc } from './schema/file.schema';
 
 @Controller('file')
 export class FileController {
-  constructor(private filesService: FileService) {}
+  constructor(
+    private filesService: FileService,
+    @Inject(FILE_MODEL) private readonly fileModel: Model<AllFileDoc>,
+  ) {}
 
   @Post('/')
   @UseInterceptors(FilesInterceptor('files'))
@@ -25,8 +36,32 @@ export class FileController {
   @ApiBody({
     type: CreateFileDto,
   })
-  upload(@UploadedFile() files: CreateFileDto) {
-    console.log(JSON.stringify(files, null, 2));
+  async upload(
+    @UploadedFile('files') files: HTTPFile[],
+    @Body() body: CreateFileDto,
+  ) {
+    for (const file of files) {
+      const parse: Omit<AllFile, '_id'> = {
+        owner: body.owner,
+        meta: {
+          size: file.size,
+          filename: file.filename,
+          extension: (file.filename.split('.').pop() as any) || '',
+          contentType: (file.filename.split('.').pop() as any) || '',
+          width: 0,
+          height: 0,
+          dpi: 72,
+        },
+        zone: ZoneEnum.TH,
+        label: file.filename,
+        type: FileTypeEnum.Image,
+        createAt: new Date(),
+        updateAt: new Date(),
+      };
+      const doc = await this.fileModel.create(parse);
+      Logger.log(doc);
+    }
+    return;
   }
 
   @Get('/:id')
