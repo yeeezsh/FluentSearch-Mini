@@ -54,4 +54,8 @@ export class FileService {
       throw err;
     }
   }
+
+  async getFile(id: string) {
+    return this.fileModel.downloadFile(id);
+  }
 }

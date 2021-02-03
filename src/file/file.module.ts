@@ -20,5 +20,6 @@ import { FileService } from './file.service';
   ],
   controllers: [FileController],
   providers: [FileService, ...databaseProviders, ...fileProviders],
+  exports: [FileService, ...fileProviders],
 })
 export class FileModule {}
