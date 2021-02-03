@@ -6,6 +6,7 @@ import { AppService } from './app.service';
 import { ConfigModule } from './config/config.module';
 import { DatabaseModule } from './database/database.module';
 import { FileModule } from './file/file.module';
+import { InsightModule } from './insight/insight.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { FileModule } from './file/file.module';
       sortSchema: true,
     }),
     FileModule,
+    InsightModule,
   ],
   controllers: [AppController],
   providers: [AppService, AppResolver],
