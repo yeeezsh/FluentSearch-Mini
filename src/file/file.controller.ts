@@ -14,7 +14,7 @@ import { FilesInterceptor } from '@nestjs/platform-express';
 import { ApiBody, ApiConsumes } from '@nestjs/swagger';
 import { Response } from 'express';
 import { Model } from 'mongoose';
-import { FileNotExistsException } from '../common/Exception/file-error.exception';
+import { FileNotExistsException } from '../common/exceptions/file-error.exception';
 import { CreateFileDto } from './@dtos/file.create.dto';
 import { HTTPFile } from './@interfaces/http-file.interface';
 import { FileStoreService } from './file-store.service';
