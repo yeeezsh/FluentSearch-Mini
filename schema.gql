@@ -6,6 +6,74 @@ type AppModel {
   status: Int!
 }
 
+type BBoxResponseApi {
+  xmax: Int!
+  xmin: Int!
+  ymax: Int!
+  ymin: Int!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+enum FileExtensionEnum {
+  JPG
+  PNG
+}
+
+type ImageFileWithInsight {
+  _id: String!
+  createAt: DateTime!
+  insight: [Insight!]
+  label: String!
+  meta: ImageMeta!
+  owner: String!
+  type: String!
+  updateAt: DateTime!
+  uri: String!
+  zone: ZoneEnum!
+}
+
+type ImageMeta {
+  contentType: String!
+  dpi: Int!
+  extension: FileExtensionEnum!
+  filename: String!
+  height: Int!
+  sha1: String
+  size: Int!
+  width: Int!
+}
+
+type Insight {
+  _id: String!
+  bbox: BBoxResponseApi!
+  createAt: DateTime!
+  label: String!
+  lang: LanguageEnum!
+  model: ModelEnum!
+  prob: Int!
+  result: String!
+  updateAt: DateTime!
+}
+
+enum LanguageEnum {
+  enus
+  th
+}
+
+enum ModelEnum {
+  detection_600
+  faces_emo
+}
+
 type Query {
+  getFilesWithInsight(limit: Int, skip: Int, userId: String!): [ImageFileWithInsight!]!
   serverStatus: AppModel!
+}
+
+enum ZoneEnum {
+  TH
 }

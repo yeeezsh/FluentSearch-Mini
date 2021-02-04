@@ -13,7 +13,7 @@ import { InsightModule } from './insight/insight.module';
     ConfigModule,
     DatabaseModule,
     GraphQLModule.forRoot({
-      installSubscriptionHandlers: true,
+      installSubscriptionHandlers: false,
       autoSchemaFile: 'schema.gql',
       sortSchema: true,
     }),

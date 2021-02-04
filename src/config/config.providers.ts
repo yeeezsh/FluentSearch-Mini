@@ -18,6 +18,7 @@ export const configProviders: Provider[] = [
         ORIGIN,
         BCRYPT_SECRET_ROUND,
         PORT,
+        HOSTNAME,
       } = process.env as ProcessConfigType;
       return {
         database: {
@@ -41,6 +42,7 @@ export const configProviders: Provider[] = [
           round: Number(BCRYPT_SECRET_ROUND || 10),
         },
         port: Number(PORT || 5000),
+        hostname: HOSTNAME || 'localhost',
       };
     })(),
   },

@@ -1,0 +1,57 @@
+import { Inject, Injectable } from '@nestjs/common';
+import { imageSize } from 'image-size';
+import { MongoGridFS } from 'mongo-gridfs';
+import { GridFSBucketReadStream } from 'mongodb';
+import { FileNotFound } from '../common/Exception/file-error.exception';
+import { DATABASE_CONNECTION } from '../database/constants/database.constant';
+import { FileInfoDto } from './@dtos/file.info.dto';
+
+@Injectable()
+export class FileStoreService {
+  private fileModel: MongoGridFS;
+
+  constructor(@Inject(DATABASE_CONNECTION) private readonly db: any) {
+    const connect = this.db.connections[0].db;
+    this.fileModel = new MongoGridFS(connect, 'fs');
+  }
+
+  async readStream(id: string): Promise<GridFSBucketReadStream> {
+    return await this.fileModel.readFileStream(id);
+  }
+
+  async findInfo(id: string): Promise<FileInfoDto> {
+    try {
+      const result = await this.fileModel.findById(id);
+      return {
+        filename: result.filename,
+        length: result.length,
+        chunkSize: result.chunkSize,
+        md5: result.md5,
+        contentType: result.contentType,
+      };
+    } catch (err) {
+      throw new FileNotFound();
+    }
+  }
+
+  async deleteFile(id: string): Promise<boolean> {
+    return await this.fileModel.delete(id);
+  }
+
+  async getImageResolution(
+    id: string,
+  ): Promise<{ id: string; width: number; height: number }> {
+    try {
+      const file = await this.fileModel.downloadFile(id);
+      const { width, height } = imageSize(file);
+      if (!width || !height) throw new Error('cannot get w/h');
+      return {
+        id,
+        width,
+        height,
+      };
+    } catch (err) {
+      throw err;
+    }
+  }
+}
