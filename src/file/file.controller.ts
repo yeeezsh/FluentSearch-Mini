@@ -4,7 +4,6 @@ import {
   Delete,
   Get,
   Inject,
-  Logger,
   Param,
   Post,
   Res,
@@ -14,19 +13,20 @@ import {
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { ApiBody, ApiConsumes } from '@nestjs/swagger';
 import { Response } from 'express';
-import { FileTypeEnum, ZoneEnum } from 'fluentsearch-types';
 import { Model } from 'mongoose';
 import { FileNotExistsException } from '../common/Exception/file-error.exception';
 import { CreateFileDto } from './@dtos/file.create.dto';
 import { HTTPFile } from './@interfaces/http-file.interface';
 import { FileStoreService } from './file-store.service';
 import { FILE_MODEL } from './file.providers';
-import { AllFile, AllFileDoc } from './schema/file.schema';
+import { FileService } from './file.service';
+import { AllFileDoc } from './schema/file.schema';
 
 @Controller('file')
 export class FileController {
   constructor(
     private fileStore: FileStoreService,
+    private fileService: FileService,
     @Inject(FILE_MODEL) private readonly fileModel: Model<AllFileDoc>,
   ) {}
 
@@ -40,31 +40,7 @@ export class FileController {
     @UploadedFile('files') files: HTTPFile[],
     @Body() body: CreateFileDto,
   ) {
-    for (const file of files) {
-      const { width, height } = await this.fileStore.getImageResolution(
-        file.id,
-      );
-      const parse: Omit<AllFile, '_id'> = {
-        owner: body.owner,
-        meta: {
-          size: file.size,
-          filename: file.filename,
-          extension: (file.filename.split('.').pop() as any) || '',
-          contentType: file.contentType,
-          width,
-          height,
-          dpi: 72,
-        },
-        zone: ZoneEnum.TH,
-        label: file.filename,
-        type: FileTypeEnum.Image,
-        createAt: new Date(),
-        updateAt: new Date(),
-      };
-      const doc = await this.fileModel.create(parse);
-      Logger.log(doc);
-    }
-    return;
+    return this.fileService.createFiles(files, body);
   }
 
   @Get('/:id')

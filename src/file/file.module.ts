@@ -8,6 +8,7 @@ import { GridFsMulterConfigService } from './file.config';
 import { FileController } from './file.controller';
 import { fileProviders } from './file.providers';
 import { FileResolver } from './file.resolver';
+import { FileService } from './file.service';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { FileResolver } from './file.resolver';
   controllers: [FileController],
   providers: [
     FileStoreService,
+    FileService,
     FileResolver,
     ...databaseProviders,
     ...fileProviders,
