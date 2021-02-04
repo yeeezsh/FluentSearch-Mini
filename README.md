@@ -74,6 +74,22 @@ Nest is [MIT licensed](LICENSE).
 
 ## Models
 
+init ml service
+
+```
+curl -X PUT http://localhost:8080/services/detection_600 -d '{
+ "description": "object detection service",
+ "model": {
+  "repository": "/opt/models/detection_600",
+  "create_repository": true,
+  "init":"http:/localhost:5000/static/models/detection_600.tar.gz"
+ },
+ "parameters": {"input": {"connector":"image"}},
+ "mllib": "caffe",
+ "type": "supervised"
+}'
+```
+
 - detection_600
 - faces_emo
 
