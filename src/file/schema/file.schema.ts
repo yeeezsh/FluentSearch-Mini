@@ -1,6 +1,6 @@
-import { ImageFile, ImageThumbnailFile } from 'fluentsearch-types';
+import { ImageFileSchema, ImageThumbnailFileSchema } from 'fluentsearch-types';
 import { Document, Schema } from 'mongoose';
-export type AllFile = ImageFile | ImageThumbnailFile;
+export type AllFile = ImageFileSchema | ImageThumbnailFileSchema;
 
 export type AllFileDoc = Document<AllFile>;
 
