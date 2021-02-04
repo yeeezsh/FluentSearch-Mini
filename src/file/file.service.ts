@@ -28,7 +28,6 @@ export class FileService {
       .find({ owner: userId })
       .skip(skip)
       .limit(limit);
-    console.log('files', files);
     const mapped: ImageFileWithInsight[] = files.map((file: AllFile) => {
       return {
         _id: file._id,
@@ -49,7 +48,11 @@ export class FileService {
 
         createAt: file.createAt,
         updateAt: file.updateAt,
-        uri: filePathJoin(this.appConfig.hostname, file._id),
+        uri: filePathJoin(
+          this.appConfig.hostname,
+          file._id,
+          this.appConfig.port,
+        ),
       };
     });
 

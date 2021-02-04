@@ -1,2 +1,2 @@
-export default (hostname: string, fileId: string): string =>
-  `http://${hostname}/file/${fileId}`;
+export default (hostname: string, fileId: string, port?: number): string =>
+  `http://${hostname}${port ? `:${port}` : undefined}/file/${fileId}`;
