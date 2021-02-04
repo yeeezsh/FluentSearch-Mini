@@ -24,10 +24,11 @@ export class FileService {
     limit = 100,
     skip = 0,
   ): Promise<ImageFileWithInsight[]> {
-    const files = await this.fileModel
+    const files = ((await this.fileModel
       .find({ owner: userId })
       .skip(skip)
-      .limit(limit);
+      .limit(limit)) as unknown) as AllFile[];
+
     const mapped: ImageFileWithInsight[] = files.map((file: AllFile) => {
       return {
         _id: file._id,
@@ -53,7 +54,7 @@ export class FileService {
           file._id,
           this.appConfig.port,
         ),
-      };
+      } as ImageFileWithInsight;
     });
 
     return mapped;
