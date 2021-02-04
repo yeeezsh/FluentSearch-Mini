@@ -41,6 +41,7 @@ export class ImageFileWithInsight
 
   @Field(() => ZoneEnum)
   zone: ZoneEnum;
+
   @Field()
   label: string;
 

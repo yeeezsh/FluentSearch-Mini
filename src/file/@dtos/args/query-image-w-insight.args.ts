@@ -1,15 +1,17 @@
 import { ArgsType, Field, Int } from '@nestjs/graphql';
-import { Max, Min } from 'class-validator';
+import { IsOptional, Max, Min } from 'class-validator';
 
 @ArgsType()
 export class QueryImageWithInsightArgs {
   @Min(0)
+  @IsOptional()
   @Field(() => Int, { nullable: true })
-  skip = 0;
+  skip: number;
 
   @Max(1000)
+  @IsOptional()
   @Field(() => Int, { nullable: true })
-  limit = 1000;
+  limit: number;
 
   @Field()
   userId: string;
