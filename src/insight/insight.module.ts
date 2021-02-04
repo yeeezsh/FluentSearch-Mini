@@ -3,6 +3,7 @@ import { ConfigModule } from 'src/config/config.module';
 import { FileModule } from 'src/file/file.module';
 import { HttpConfigService } from './http.config.service';
 import { InsightWorkerService } from './insight-worker.service';
+import { insightProviders } from './insight.providers';
 import { InsightService } from './insight.service';
 
 @Module({
@@ -11,6 +12,6 @@ import { InsightService } from './insight.service';
     FileModule,
     HttpModule.registerAsync({ useClass: HttpConfigService }),
   ],
-  providers: [InsightService, InsightWorkerService],
+  providers: [InsightService, InsightWorkerService, ...insightProviders],
 })
 export class InsightModule {}
