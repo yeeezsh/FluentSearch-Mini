@@ -8,8 +8,10 @@ import {
 export class HttpConfigService implements HttpModuleOptionsFactory {
   createHttpOptions(): HttpModuleOptions {
     return {
-      timeout: 5000,
+      timeout: 30 * 1000,
       maxRedirects: 5,
+      baseURL: 'http://insight-ml:8080',
+      responseType: 'json',
     };
   }
 }
