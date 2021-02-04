@@ -9,4 +9,5 @@ export enum ConfigEnum {
   ORIGIN = 'ORIGIN',
   BCRYPT_SECRET_ROUND = 'BCRYPT_SECRET_ROUND',
   PORT = 'PORT',
+  HOSTNAME = 'HOSTNAME',
 }

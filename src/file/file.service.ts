@@ -1,57 +1,89 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { imageSize } from 'image-size';
-import { MongoGridFS } from 'mongo-gridfs';
-import { GridFSBucketReadStream } from 'mongodb';
-import { FileNotFound } from '../common/Exception/file-error.exception';
-import { DATABASE_CONNECTION } from '../database/constants/database.constant';
-import { FileInfoDto } from './@dtos/file.info.dto';
+import { FileTypeEnum, ZoneEnum } from 'fluentsearch-types';
+import { Model } from 'mongoose';
+import filePathJoin from 'src/common/utils/file-path-join';
+import { APP_CONFIG } from 'src/config/config.constant';
+import { ConfigurationInterface } from 'src/config/config.interface';
+import { CreateFileDto } from './@dtos/file.create.dto';
+import { HTTPFile } from './@interfaces/http-file.interface';
+import { FileStoreService } from './file-store.service';
+import { FILE_MODEL } from './file.providers';
+import { ImageFileWithInsight } from './models/image-file-w-insight.model';
+import { AllFile, AllFileDoc } from './schema/file.schema';
 
 @Injectable()
 export class FileService {
-  private fileModel: MongoGridFS;
+  constructor(
+    private filesStoreService: FileStoreService,
+    @Inject(APP_CONFIG) private readonly appConfig: ConfigurationInterface,
+    @Inject(FILE_MODEL) private readonly fileModel: Model<AllFileDoc>,
+  ) {}
 
-  constructor(@Inject(DATABASE_CONNECTION) private readonly db: any) {
-    const connect = this.db.connections[0].db;
-    this.fileModel = new MongoGridFS(connect, 'fs');
-  }
-
-  async readStream(id: string): Promise<GridFSBucketReadStream> {
-    return await this.fileModel.readFileStream(id);
-  }
-
-  async findInfo(id: string): Promise<FileInfoDto> {
-    try {
-      const result = await this.fileModel.findById(id);
+  async getFilesWithInsight(
+    userId: string,
+    limit = 100,
+    skip = 0,
+  ): Promise<ImageFileWithInsight[]> {
+    const files = await this.fileModel
+      .find({ owner: userId })
+      .skip(skip)
+      .limit(limit);
+    const mapped: ImageFileWithInsight[] = files.map((file: AllFile) => {
       return {
-        filename: result.filename,
-        length: result.length,
-        chunkSize: result.chunkSize,
-        md5: result.md5,
-        contentType: result.contentType,
+        _id: file._id,
+        label: file.label,
+        owner: file.owner,
+        meta: {
+          size: file.meta.size,
+          filename: file.label,
+          extension: file.meta.extension,
+          contentType: file.meta.contentType,
+          width: file.meta.width,
+          height: file.meta.height,
+          dpi: 72,
+        },
+        zone: file.zone,
+        type: FileTypeEnum.Image,
+        insight: [],
+
+        createAt: file.createAt,
+        updateAt: file.updateAt,
+        uri: filePathJoin(
+          this.appConfig.hostname,
+          file._id,
+          this.appConfig.port,
+        ),
       };
-    } catch (err) {
-      throw new FileNotFound();
-    }
+    });
+
+    return mapped;
   }
 
-  async deleteFile(id: string): Promise<boolean> {
-    return await this.fileModel.delete(id);
-  }
-
-  async getImageResolution(
-    id: string,
-  ): Promise<{ id: string; width: number; height: number }> {
-    try {
-      const file = await this.fileModel.downloadFile(id);
-      const { width, height } = imageSize(file);
-      if (!width || !height) throw new Error('cannot get w/h');
-      return {
-        id,
-        width,
-        height,
+  async createFiles(files: HTTPFile[], body: CreateFileDto): Promise<void> {
+    for (const file of files) {
+      const { width, height } = await this.filesStoreService.getImageResolution(
+        file.id,
+      );
+      const parse: AllFile = {
+        _id: file.id,
+        owner: body.owner,
+        meta: {
+          size: file.size,
+          filename: file.filename,
+          extension: (file.filename.split('.').pop() as any) || '',
+          contentType: file.contentType,
+          width,
+          height,
+          dpi: 72,
+        },
+        zone: ZoneEnum.TH,
+        label: file.filename,
+        type: FileTypeEnum.Image,
+        createAt: new Date(),
+        updateAt: new Date(),
       };
-    } catch (err) {
-      throw err;
+
+      await this.fileModel.create(parse);
     }
   }
 }

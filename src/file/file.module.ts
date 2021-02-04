@@ -3,9 +3,11 @@ import { MulterModule } from '@nestjs/platform-express';
 import { ConfigModule } from './../config/config.module';
 import { DatabaseModule } from './../database/database.module';
 import { databaseProviders } from './../database/database.provider';
+import { FileStoreService } from './file-store.service';
 import { GridFsMulterConfigService } from './file.config';
 import { FileController } from './file.controller';
 import { fileProviders } from './file.providers';
+import { FileResolver } from './file.resolver';
 import { FileService } from './file.service';
 
 @Module({
@@ -19,6 +21,12 @@ import { FileService } from './file.service';
     }),
   ],
   controllers: [FileController],
-  providers: [FileService, ...databaseProviders, ...fileProviders],
+  providers: [
+    FileStoreService,
+    FileService,
+    FileResolver,
+    ...databaseProviders,
+    ...fileProviders,
+  ],
 })
 export class FileModule {}
