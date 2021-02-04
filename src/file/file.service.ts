@@ -19,7 +19,8 @@ export class FileService {
       const { width, height } = await this.filesService.getImageResolution(
         file.id,
       );
-      const parse: Omit<AllFile, '_id'> = {
+      const parse: AllFile = {
+        _id: file.id,
         owner: body.owner,
         meta: {
           size: file.size,
