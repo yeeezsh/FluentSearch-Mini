@@ -12,7 +12,7 @@ import { FileModule } from './file/file.module';
     ConfigModule,
     DatabaseModule,
     GraphQLModule.forRoot({
-      installSubscriptionHandlers: true,
+      installSubscriptionHandlers: false,
       autoSchemaFile: 'schema.gql',
       sortSchema: true,
     }),
