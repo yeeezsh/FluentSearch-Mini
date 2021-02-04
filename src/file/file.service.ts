@@ -86,8 +86,4 @@ export class FileService {
       await this.fileModel.create(parse);
     }
   }
-
-  async getFile(id: string) {
-    return this.fileModel.downloadFile(id);
-  }
 }
