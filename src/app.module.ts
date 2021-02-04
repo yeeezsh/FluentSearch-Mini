@@ -13,7 +13,8 @@ import { InsightModule } from './insight/insight.module';
 @Module({
   imports: [
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', 'static'),
+      rootPath: join(__dirname, '../..', 'static'),
+      serveRoot: join(__dirname, '../..', 'static'),
     }),
     ConfigModule,
     DatabaseModule,
