@@ -71,3 +71,10 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 ## License
 
 Nest is [MIT licensed](LICENSE).
+
+## Models
+
+- detection_600
+- faces_emo
+
+  download model via [Google Drive](https://drive.google.com/drive/u/1/folders/1il4IiKMViiDxmwquBaJUGEP63iVrLkub)
