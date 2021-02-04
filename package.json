@@ -26,6 +26,7 @@
     "@nestjs/graphql": "^7.9.4",
     "@nestjs/passport": "^7.1.0",
     "@nestjs/platform-express": "^7.0.0",
+    "@nestjs/serve-static": "^2.1.4",
     "@nestjs/swagger": "^4.6.1",
     "@types/image-size": "^0.8.0",
     "apollo-server-express": "^2.19.1",
@@ -46,7 +47,6 @@
     "swagger-ui-express": "^4.1.4"
   },
   "devDependencies": {
-    "fluentsearch-types": "0.2.1",
     "@nestjs/cli": "^7.0.0",
     "@nestjs/schematics": "^7.0.0",
     "@nestjs/testing": "^7.0.0",
@@ -64,6 +64,7 @@
     "eslint": "7.7.0",
     "eslint-config-prettier": "^6.10.0",
     "eslint-plugin-import": "^2.20.1",
+    "fluentsearch-types": "0.2.1",
     "jest": "26.4.2",
     "mongodb-memory-server": "^6.9.2",
     "prettier": "^1.19.1",
