@@ -16,4 +16,5 @@ export interface ConfigurationInterface {
     round: number;
   };
   port: number;
+  hostname: string;
 }
