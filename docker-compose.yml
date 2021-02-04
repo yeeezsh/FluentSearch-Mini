@@ -1,5 +1,13 @@
 version: '3.4'
 services:
+  insight-ml:
+    container_name: Insight-ML
+    restart: on-failure
+    image: jolibrain/deepdetect_cpu
+    ports:
+      - '8080:8080'
+    volumes:
+      - './models:/opt/models/'
   fluentsearch-mini:
     container_name: FluentSearch-Mini
     restart: always
