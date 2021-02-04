@@ -6,6 +6,57 @@ type AppModel {
   status: Int!
 }
 
+type BBoxResponseApi {
+  xmax: Int!
+  xmin: Int!
+  ymax: Int!
+  ymin: Int!
+}
+
+enum FileTypeEnum {
+  Image
+  ImageThumbnail
+  Video
+}
+
+type ImageFileWithInsight {
+  _id: String!
+  bbox: BBoxResponseApi
+  createAt: String!
+  label: String!
+  lang: LanguageEnum!
+  meta: ImageMeta!
+  model: ModelEnum!
+  owner: String!
+  prob: Int!
+  result: String!
+  type: FileTypeEnum!
+  updateAt: String!
+  uri: String!
+  zone: ZoneEnum!
+}
+
+type ImageMeta {
+  dpi: Int!
+  height: Int!
+  width: Int!
+}
+
+enum LanguageEnum {
+  enus
+  th
+}
+
+enum ModelEnum {
+  detection_600
+  faces_emo
+}
+
 type Query {
+  getFilesWithInsight(limit: Int = 1000, skip: Int = 0, userId: String!): [ImageFileWithInsight!]!
   serverStatus: AppModel!
+}
+
+enum ZoneEnum {
+  TH
 }
