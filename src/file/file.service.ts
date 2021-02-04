@@ -14,7 +14,7 @@ import { AllFile, AllFileDoc } from './schema/file.schema';
 @Injectable()
 export class FileService {
   constructor(
-    private filesService: FileStoreService,
+    private filesStoreService: FileStoreService,
     @Inject(APP_CONFIG) private readonly appConfig: ConfigurationInterface,
     @Inject(FILE_MODEL) private readonly fileModel: Model<AllFileDoc>,
   ) {}
@@ -61,7 +61,7 @@ export class FileService {
 
   async createFiles(files: HTTPFile[], body: CreateFileDto): Promise<void> {
     for (const file of files) {
-      const { width, height } = await this.filesService.getImageResolution(
+      const { width, height } = await this.filesStoreService.getImageResolution(
         file.id,
       );
       const parse: AllFile = {
