@@ -19,14 +19,14 @@ import { Model } from 'mongoose';
 import { FileNotExistsException } from '../common/Exception/file-error.exception';
 import { CreateFileDto } from './@dtos/file.create.dto';
 import { HTTPFile } from './@interfaces/http-file.interface';
+import { FileStoreService } from './file-store.service';
 import { FILE_MODEL } from './file.providers';
-import { FileService } from './file.service';
 import { AllFile, AllFileDoc } from './schema/file.schema';
 
 @Controller('file')
 export class FileController {
   constructor(
-    private filesService: FileService,
+    private filesService: FileStoreService,
     @Inject(FILE_MODEL) private readonly fileModel: Model<AllFileDoc>,
   ) {}
 

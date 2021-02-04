@@ -7,7 +7,7 @@ import { DATABASE_CONNECTION } from '../database/constants/database.constant';
 import { FileInfoDto } from './@dtos/file.info.dto';
 
 @Injectable()
-export class FileService {
+export class FileStoreService {
   private fileModel: MongoGridFS;
 
   constructor(@Inject(DATABASE_CONNECTION) private readonly db: any) {
