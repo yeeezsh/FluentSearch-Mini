@@ -70,7 +70,7 @@ enum ModelEnum {
 }
 
 type Query {
-  getFilesWithInsight(limit: Int = 1000, skip: Int = 0, userId: String!): [ImageFileWithInsight!]!
+  getFilesWithInsight(limit: Int, skip: Int, userId: String!): [ImageFileWithInsight!]!
   serverStatus: AppModel!
 }
 
