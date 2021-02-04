@@ -16,7 +16,7 @@ services:
     environment:
       NODE_ENV: 'development'
       TZ: Asia/Bangkok
-      ORIGIN: http(|s):\/\/localhost:5000
+      ORIGIN: http(|s):\/\/localhost:3000
       DATABASE_CONNECTION: 'mongodb://fluentsearch-bff-mongos/fluentsearch-bff'
       DATABASE_USERAME: root
       DATABASE_PASSWORD: FluentSearch@BFF.MongoDB
