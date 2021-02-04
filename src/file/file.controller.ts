@@ -26,7 +26,7 @@ import { AllFile, AllFileDoc } from './schema/file.schema';
 @Controller('file')
 export class FileController {
   constructor(
-    private filesService: FileStoreService,
+    private fileStore: FileStoreService,
     @Inject(FILE_MODEL) private readonly fileModel: Model<AllFileDoc>,
   ) {}
 
@@ -41,7 +41,7 @@ export class FileController {
     @Body() body: CreateFileDto,
   ) {
     for (const file of files) {
-      const { width, height } = await this.filesService.getImageResolution(
+      const { width, height } = await this.fileStore.getImageResolution(
         file.id,
       );
       const parse: Omit<AllFile, '_id'> = {
@@ -69,8 +69,8 @@ export class FileController {
 
   @Get('/:id')
   async getFile(@Param('id') id: string, @Res() res: Response) {
-    const file = await this.filesService.findInfo(id);
-    const filestream = await this.filesService.readStream(id);
+    const file = await this.fileStore.findInfo(id);
+    const filestream = await this.fileStore.readStream(id);
     if (!filestream) {
       throw new FileNotExistsException();
     }
@@ -84,8 +84,8 @@ export class FileController {
 
   @Get('/download/:id')
   async downloadFile(@Param('id') id: string, @Res() res: Response) {
-    const file = await this.filesService.findInfo(id);
-    const filestream = await this.filesService.readStream(id);
+    const file = await this.fileStore.findInfo(id);
+    const filestream = await this.fileStore.readStream(id);
 
     if (!filestream) {
       throw new FileNotExistsException();
@@ -97,8 +97,8 @@ export class FileController {
 
   @Delete('/:id')
   async deleteFile(@Param('id') id: string): Promise<void> {
-    await this.filesService.findInfo(id);
-    const filestream = await this.filesService.deleteFile(id);
+    await this.fileStore.findInfo(id);
+    const filestream = await this.fileStore.deleteFile(id);
     if (!filestream) {
       throw new FileNotExistsException();
     }
