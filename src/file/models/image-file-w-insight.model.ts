@@ -1,16 +1,16 @@
-import { Field, Int, ObjectType, registerEnumType } from '@nestjs/graphql';
+import { Field, ObjectType, registerEnumType } from '@nestjs/graphql';
 import {
   BaseFileMetaSchema,
-  BBoxResponseApi as BBoxResponseApiType,
   FileTypeEnum,
   FileWithInsightDto,
   ImageMeta as ImageMetaType,
+  InsightSchema,
   LanguageEnum,
   ModelEnum,
   ZoneEnum,
 } from 'fluentsearch-types';
-import { BBoxResponseApi } from './bbox.model';
 import { ImageMeta } from './image-meta.model';
+import { Insight } from './insight.model';
 
 registerEnumType(FileTypeEnum, {
   name: 'FileTypeEnum',
@@ -30,45 +30,32 @@ registerEnumType(ZoneEnum, {
 @ObjectType()
 export class ImageFileWithInsight
   implements FileWithInsightDto<FileTypeEnum.Image, ImageMetaType> {
-  @Field(() => String)
+  @Field()
   _id: string;
 
   @Field(() => ImageMeta)
   meta: BaseFileMetaSchema<ImageMetaType>;
 
-  @Field(() => String)
+  @Field()
   owner: string;
 
   @Field(() => ZoneEnum)
   zone: ZoneEnum;
-
-  @Field(() => String)
+  @Field()
   label: string;
 
-  @Field(() => FileTypeEnum)
+  @Field()
   type: FileTypeEnum.Image;
 
-  @Field(() => String)
+  @Field()
   createAt: Date;
 
-  @Field(() => String)
+  @Field()
   updateAt: Date;
 
-  @Field(() => String)
-  result: string;
-
-  @Field(() => ModelEnum)
-  model: ModelEnum;
-
-  @Field(() => BBoxResponseApi, { nullable: true })
-  bbox?: BBoxResponseApiType | undefined;
-
-  @Field(() => Int)
-  prob: number;
-
-  @Field(() => LanguageEnum)
-  lang: LanguageEnum;
-
-  @Field(() => String)
+  @Field()
   uri: string;
+
+  @Field(() => [Insight], { nullable: true })
+  insight?: InsightSchema[] | undefined;
 }
