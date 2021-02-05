@@ -13,7 +13,7 @@ async function bootstrap() {
     .get(APP_CONFIG);
 
   app.enableCors({
-    origin: [config.origin],
+    origin: [config.origin, `http(|s):\\${config.dns_name}:${config.port}`],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     credentials: true,
   });
