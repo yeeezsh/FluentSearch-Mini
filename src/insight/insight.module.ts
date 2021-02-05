@@ -13,5 +13,6 @@ import { InsightService } from './insight.service';
     HttpModule.registerAsync({ useClass: HttpConfigService }),
   ],
   providers: [InsightService, InsightWorkerService, ...insightProviders],
+  exports: [InsightService],
 })
 export class InsightModule {}
