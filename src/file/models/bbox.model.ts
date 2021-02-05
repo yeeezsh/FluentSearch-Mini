@@ -1,5 +1,5 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql';
-import { BBoxResponseApi as BBoxResponseApiType } from 'fluentsearch-types';
+import { BBoxResponseAPI as BBoxResponseApiType } from 'fluentsearch-types';
 
 @ObjectType()
 export class BBoxResponseApi implements BBoxResponseApiType {
