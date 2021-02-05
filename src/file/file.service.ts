@@ -26,9 +26,9 @@ export class FileService {
   ): Promise<ImageFileWithInsight[]> {
     const files = ((await this.fileModel
       .find({ owner: userId })
+      .sort({ createAt: -1 })
       .skip(skip)
-      .limit(limit)
-      .sort({ createAt: -1 })) as unknown) as AllFile[];
+      .limit(limit)) as unknown) as AllFile[];
 
     const mapped: ImageFileWithInsight[] = files.map((file: AllFile) => {
       return {
