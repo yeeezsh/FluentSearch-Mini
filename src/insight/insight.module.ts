@@ -10,7 +10,10 @@ import { InsightService } from './insight.service';
   imports: [
     ConfigModule,
     forwardRef(() => FileModule),
-    HttpModule.registerAsync({ useClass: HttpConfigService }),
+    HttpModule.registerAsync({
+      imports: [ConfigModule],
+      useClass: HttpConfigService,
+    }),
   ],
   providers: [InsightService, InsightWorkerService, ...insightProviders],
   exports: [InsightService],
