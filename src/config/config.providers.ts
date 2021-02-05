@@ -45,7 +45,7 @@ export const configProviders: Provider[] = [
         },
         port: Number(PORT || 5000),
         hostname: HOSTNAME || 'localhost',
-        ml_endpoint: ML_ENDPOINT || 'insight-ml',
+        ml_endpoint: ML_ENDPOINT || 'insight-ml:8080',
         dns_name: DNS_NAME || 'fluentsearch-mini',
       };
     })(),

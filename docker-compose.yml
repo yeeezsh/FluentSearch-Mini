@@ -24,7 +24,7 @@ services:
       PORT: 5000
       HOSTNAME: localhost
       DNS_NAME: fluentsearch-mini
-      ML_ENDPOINT: insight-ml
+      ML_ENDPOINT: insight-ml:8080
     build:
       context: ./
       dockerfile: Dockerfile
