@@ -3,6 +3,7 @@ import {
   Inject,
   Injectable,
   InternalServerErrorException,
+  Logger,
 } from '@nestjs/common';
 import {
   DeepDetectRequestAPI,
@@ -63,5 +64,7 @@ export class InsightService {
         } as Omit<InsightSchema, '_id'>);
       }
     }
+
+    Logger.log(res);
   }
 }
