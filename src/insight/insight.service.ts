@@ -13,7 +13,6 @@ import {
   ModelEnum,
 } from 'fluentsearch-types';
 import { Model } from 'mongoose';
-import filePathJoin from 'src/common/utils/file-path-join';
 import { APP_CONFIG } from 'src/config/config.constant';
 import { ConfigurationInterface } from 'src/config/config.interface';
 import { INSIGHT_MODEL } from './insight.providers';
@@ -32,40 +31,46 @@ export class InsightService {
       service: MODEL_ENDPOINT,
       parameters: {
         output: {
-          confidence_threshold: 0.5,
+          confidence_threshold: 0.2,
           bbox: true,
         },
         mllib: {
-          gpu: true,
+          gpu: false,
         },
       },
       data: [
-        filePathJoin(this.appConfig.hostname, fileId, this.appConfig.port),
+        `http://${this.appConfig.dns_name}:${this.appConfig.port}/file/${fileId}`,
       ],
     };
 
     console.log(payload);
 
-    const res = (await this.insightML.post(MODEL_ENDPOINT, payload).toPromise())
-      .data as DeepDetectResponseAPI;
-    const { body, status } = res;
-    if (status.code !== 200) throw new InternalServerErrorException(status.msg);
-    const now = new Date();
-    const predictions = body.predictions;
-    for (const pred of predictions) {
-      for (const classPred of pred.classes) {
-        await this.insightModel.create({
-          result: classPred.cat,
-          model: ModelEnum.detection_600,
-          bbox: classPred.bbox,
-          prob: classPred.prob,
-          lang: LanguageEnum.enus,
-          createAt: now,
-          updateAt: now,
-        } as Omit<InsightSchema, '_id'>);
-      }
-    }
+    try {
+      const res = (
+        await this.insightML.post(MODEL_ENDPOINT, payload).toPromise()
+      ).data as DeepDetectResponseAPI;
+      const { body, status } = res;
 
-    Logger.log(res);
+      const now = new Date();
+      const predictions = body.predictions;
+      for (const pred of predictions) {
+        for (const classPred of pred.classes) {
+          await this.insightModel.create({
+            result: classPred.cat,
+            model: ModelEnum.detection_600,
+            bbox: classPred.bbox,
+            prob: classPred.prob,
+            lang: LanguageEnum.enus,
+            createAt: now,
+            updateAt: now,
+          } as Omit<InsightSchema, '_id'>);
+        }
+      }
+
+      Logger.log(res);
+    } catch (err) {
+      Logger.error(err);
+      throw new InternalServerErrorException(err);
+    }
   }
 }
