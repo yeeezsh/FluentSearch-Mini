@@ -17,4 +17,5 @@ export interface ConfigurationInterface {
   };
   port: number;
   hostname: string;
+  ml_endpoint: string;
 }

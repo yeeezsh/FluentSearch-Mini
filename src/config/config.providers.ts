@@ -19,6 +19,7 @@ export const configProviders: Provider[] = [
         BCRYPT_SECRET_ROUND,
         PORT,
         HOSTNAME,
+        ML_ENDPOINT,
       } = process.env as ProcessConfigType;
       return {
         database: {
@@ -43,6 +44,7 @@ export const configProviders: Provider[] = [
         },
         port: Number(PORT || 5000),
         hostname: HOSTNAME || 'localhost',
+        ml_endpoint: ML_ENDPOINT || 'insight-ml',
       };
     })(),
   },
