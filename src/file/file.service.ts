@@ -27,7 +27,8 @@ export class FileService {
     const files = ((await this.fileModel
       .find({ owner: userId })
       .skip(skip)
-      .limit(limit)) as unknown) as AllFile[];
+      .limit(limit)
+      .sort({ createAt: -1 })) as unknown) as AllFile[];
 
     const mapped: ImageFileWithInsight[] = files.map((file: AllFile) => {
       return {
