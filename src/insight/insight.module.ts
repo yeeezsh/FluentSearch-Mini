@@ -16,6 +16,6 @@ import { InsightService } from './insight.service';
     }),
   ],
   providers: [InsightService, InsightWorkerService, ...insightProviders],
-  exports: [InsightService],
+  exports: [InsightService, ...insightProviders],
 })
 export class InsightModule {}
