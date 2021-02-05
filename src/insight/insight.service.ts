@@ -25,7 +25,6 @@ export class InsightService {
     @Inject(INSIGHT_MODEL) private readonly insightModel: Model<InsightDoc>,
   ) {}
   async predict(fileId: string): Promise<void> {
-    // const res =
     const MODEL_ENDPOINT = 'detection_600';
     const payload: DeepDetectRequestAPI = {
       service: MODEL_ENDPOINT,
