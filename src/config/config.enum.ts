@@ -11,4 +11,5 @@ export enum ConfigEnum {
   PORT = 'PORT',
   HOSTNAME = 'HOSTNAME',
   ML_ENDPOINT = 'ML_ENDPOINT',
+  DNS_NAME = 'DNS_NAME',
 }

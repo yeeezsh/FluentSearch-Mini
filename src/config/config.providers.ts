@@ -20,6 +20,7 @@ export const configProviders: Provider[] = [
         PORT,
         HOSTNAME,
         ML_ENDPOINT,
+        DNS_NAME,
       } = process.env as ProcessConfigType;
       return {
         database: {
@@ -45,6 +46,7 @@ export const configProviders: Provider[] = [
         port: Number(PORT || 5000),
         hostname: HOSTNAME || 'localhost',
         ml_endpoint: ML_ENDPOINT || 'insight-ml',
+        dns_name: DNS_NAME || 'fluentsearch-mini',
       };
     })(),
   },

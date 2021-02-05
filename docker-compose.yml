@@ -23,6 +23,7 @@ services:
       DATABASE_AUTH_SOURCE: admin
       PORT: 5000
       HOSTNAME: localhost
+      DNS_NAME: fluentsearch-mini
       ML_ENDPOINT: insight-ml
     build:
       context: ./
