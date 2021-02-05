@@ -39,7 +39,7 @@ export class SearchService {
     ]);
 
     const filesId = searchLists.map(el => Types.ObjectId(el.fileId));
-    const autocomplete = searchLists.map(el => el.result);
+    const autocomplete = [...new Set(searchLists.map(el => el.result))];
 
     const files = await this.fileModel.aggregate([
       {
