@@ -44,9 +44,10 @@ export class InsightService {
       ],
     };
 
-    const res = (
-      await this.insightML.post('MODEL_ENDPOINT', payload).toPromise()
-    ).data as DeepDetectResponseAPI;
+    console.log(payload);
+
+    const res = (await this.insightML.post(MODEL_ENDPOINT, payload).toPromise())
+      .data as DeepDetectResponseAPI;
     const { body, status } = res;
     if (status.code !== 200) throw new InternalServerErrorException(status.msg);
     const now = new Date();
