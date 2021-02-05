@@ -38,7 +38,6 @@ export class FileService {
         fileId: file._id,
       })) as unknown) as InsightInfoDto[];
 
-      console.log(insights, file._id);
       return {
         _id: file._id,
         label: file.label,
