@@ -72,7 +72,13 @@ enum ModelEnum {
 
 type Query {
   getFilesWithInsight(limit: Int, skip: Int, userId: String!): [ImageFileWithInsight!]!
+  searchByWord(userId: String!, word: String!): SearchReponseDto!
   serverStatus: AppModel!
+}
+
+type SearchReponseDto {
+  autocomplete: [String!]!
+  result: [ImageFileWithInsight!]!
 }
 
 enum ZoneEnum {

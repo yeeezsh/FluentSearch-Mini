@@ -9,6 +9,7 @@ import { ConfigModule } from './config/config.module';
 import { DatabaseModule } from './database/database.module';
 import { FileModule } from './file/file.module';
 import { InsightModule } from './insight/insight.module';
+import { SearchModule } from './search/search.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { InsightModule } from './insight/insight.module';
     }),
     FileModule,
     InsightModule,
+    SearchModule,
   ],
   controllers: [AppController],
   providers: [AppService, AppResolver],
