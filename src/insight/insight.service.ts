@@ -58,7 +58,7 @@ export class InsightService {
         for (const classPred of pred.classes) {
           await this.insightModel.create({
             fileId,
-            result: classPred.cat,
+            result: classPred.cat.toLocaleLowerCase(),
             model: ModelEnum.detection_600,
             bbox: classPred.bbox,
             prob: classPred.prob,
