@@ -1,5 +1,9 @@
-import { Field, Int, ObjectType, registerEnumType } from '@nestjs/graphql';
-import { InsightSchema, LanguageEnum, ModelEnum } from 'fluentsearch-types';
+import { Field, Float, ObjectType, registerEnumType } from '@nestjs/graphql';
+import {
+  InsightSchema as InsightSchemaType,
+  LanguageEnum,
+  ModelEnum,
+} from 'fluentsearch-types';
 import { BBoxResponseApi } from './bbox.model';
 
 registerEnumType(ModelEnum, {
@@ -11,9 +15,12 @@ registerEnumType(LanguageEnum, {
 });
 
 @ObjectType()
-export class Insight implements InsightSchema {
+export class Insight implements InsightSchemaType {
   @Field()
   _id: string;
+
+  @Field()
+  fileId: string;
 
   @Field()
   label: string;
@@ -27,7 +34,7 @@ export class Insight implements InsightSchema {
   @Field(() => BBoxResponseApi)
   bbox?: BBoxResponseApi | undefined;
 
-  @Field(() => Int)
+  @Field(() => Float)
   prob: number;
 
   @Field(() => LanguageEnum)

@@ -35,3 +35,9 @@ lerna-debug.log*
 
 # db
 db
+
+# static
+static/models
+
+# models
+models

@@ -7,10 +7,10 @@ type AppModel {
 }
 
 type BBoxResponseApi {
-  xmax: Int!
-  xmin: Int!
-  ymax: Int!
-  ymin: Int!
+  xmax: Float!
+  xmin: Float!
+  ymax: Float!
+  ymin: Float!
 }
 
 """
@@ -51,10 +51,11 @@ type Insight {
   _id: String!
   bbox: BBoxResponseApi!
   createAt: DateTime!
+  fileId: String!
   label: String!
   lang: LanguageEnum!
   model: ModelEnum!
-  prob: Int!
+  prob: Float!
   result: String!
   updateAt: DateTime!
 }

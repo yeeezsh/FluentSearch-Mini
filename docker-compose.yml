@@ -1,5 +1,13 @@
 version: '3.4'
 services:
+  insight-ml:
+    container_name: Insight-ML
+    restart: on-failure
+    image: jolibrain/deepdetect_cpu
+    ports:
+      - '8080:8080'
+    volumes:
+      - './models:/opt/models/'
   fluentsearch-mini:
     container_name: FluentSearch-Mini
     restart: always
@@ -8,13 +16,15 @@ services:
     environment:
       NODE_ENV: 'development'
       TZ: Asia/Bangkok
-      ORIGIN: http(|s):\/\/localhost:5000
+      ORIGIN: http(|s):\/\/localhost:3000
       DATABASE_CONNECTION: 'mongodb://fluentsearch-bff-mongos/fluentsearch-bff'
       DATABASE_USERAME: root
       DATABASE_PASSWORD: FluentSearch@BFF.MongoDB
       DATABASE_AUTH_SOURCE: admin
       PORT: 5000
       HOSTNAME: localhost
+      DNS_NAME: fluentsearch-mini
+      ML_ENDPOINT: insight-ml:8080
     build:
       context: ./
       dockerfile: Dockerfile

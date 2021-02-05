@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { imageSize } from 'image-size';
 import { MongoGridFS } from 'mongo-gridfs';
 import { GridFSBucketReadStream } from 'mongodb';
-import { FileNotFound } from '../common/Exception/file-error.exception';
+import { FileNotFound } from '../common/exceptions/file-error.exception';
 import { DATABASE_CONNECTION } from '../database/constants/database.constant';
 import { FileInfoDto } from './@dtos/file.info.dto';
 

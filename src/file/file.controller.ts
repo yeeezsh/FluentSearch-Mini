@@ -14,7 +14,8 @@ import { FilesInterceptor } from '@nestjs/platform-express';
 import { ApiBody, ApiConsumes } from '@nestjs/swagger';
 import { Response } from 'express';
 import { Model } from 'mongoose';
-import { FileNotExistsException } from '../common/Exception/file-error.exception';
+import { InsightService } from 'src/insight/insight.service';
+import { FileNotExistsException } from '../common/exceptions/file-error.exception';
 import { CreateFileDto } from './@dtos/file.create.dto';
 import { HTTPFile } from './@interfaces/http-file.interface';
 import { FileStoreService } from './file-store.service';
@@ -27,6 +28,7 @@ export class FileController {
   constructor(
     private fileStore: FileStoreService,
     private fileService: FileService,
+    private insightService: InsightService,
     @Inject(FILE_MODEL) private readonly fileModel: Model<AllFileDoc>,
   ) {}
 
@@ -40,6 +42,10 @@ export class FileController {
     @UploadedFile('files') files: HTTPFile[],
     @Body() body: CreateFileDto,
   ) {
+    const filesId = files.map(el => el.id);
+    for (const fileId of filesId) {
+      this.insightService.predict(fileId);
+    }
     return this.fileService.createFiles(files, body);
   }
 

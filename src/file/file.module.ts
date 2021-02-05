@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { MulterModule } from '@nestjs/platform-express';
+import { InsightModule } from 'src/insight/insight.module';
 import { ConfigModule } from './../config/config.module';
 import { DatabaseModule } from './../database/database.module';
 import { databaseProviders } from './../database/database.provider';
@@ -19,9 +20,17 @@ import { FileService } from './file.service';
       useClass: GridFsMulterConfigService,
       inject: [...databaseProviders],
     }),
+    InsightModule,
   ],
   controllers: [FileController],
   providers: [
+    FileStoreService,
+    FileService,
+    FileResolver,
+    ...databaseProviders,
+    ...fileProviders,
+  ],
+  exports: [
     FileStoreService,
     FileService,
     FileResolver,

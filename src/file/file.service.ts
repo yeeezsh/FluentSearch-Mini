@@ -1,9 +1,11 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { FileTypeEnum, ZoneEnum } from 'fluentsearch-types';
+import { FileTypeEnum, InsightInfoDto, ZoneEnum } from 'fluentsearch-types';
 import { Model } from 'mongoose';
 import filePathJoin from 'src/common/utils/file-path-join';
 import { APP_CONFIG } from 'src/config/config.constant';
 import { ConfigurationInterface } from 'src/config/config.interface';
+import { INSIGHT_MODEL } from 'src/insight/insight.providers';
+import { InsightDoc } from 'src/insight/schema/insight.schema';
 import { CreateFileDto } from './@dtos/file.create.dto';
 import { HTTPFile } from './@interfaces/http-file.interface';
 import { FileStoreService } from './file-store.service';
@@ -17,18 +19,26 @@ export class FileService {
     private filesStoreService: FileStoreService,
     @Inject(APP_CONFIG) private readonly appConfig: ConfigurationInterface,
     @Inject(FILE_MODEL) private readonly fileModel: Model<AllFileDoc>,
+    @Inject(INSIGHT_MODEL) private readonly insightModel: Model<InsightDoc>,
   ) {}
 
   async getFilesWithInsight(
     userId: string,
-    limit = 100,
     skip = 0,
+    limit = 100,
   ): Promise<ImageFileWithInsight[]> {
-    const files = await this.fileModel
+    const files = ((await this.fileModel
       .find({ owner: userId })
+      .sort({ createAt: -1 })
       .skip(skip)
-      .limit(limit);
-    const mapped: ImageFileWithInsight[] = files.map((file: AllFile) => {
+      .limit(limit)) as unknown) as AllFile[];
+
+    const mappedQuery = files.map(async (file: AllFile) => {
+      const insights = ((await this.insightModel.find({
+        fileId: file._id,
+      })) as unknown) as InsightInfoDto[];
+
+      console.log(insights, file._id);
       return {
         _id: file._id,
         label: file.label,
@@ -44,7 +54,7 @@ export class FileService {
         },
         zone: file.zone,
         type: FileTypeEnum.Image,
-        insight: [],
+        insight: insights,
 
         createAt: file.createAt,
         updateAt: file.updateAt,
@@ -53,8 +63,10 @@ export class FileService {
           file._id,
           this.appConfig.port,
         ),
-      };
+      } as ImageFileWithInsight;
     });
+
+    const mapped = (await Promise.all(mappedQuery)) as ImageFileWithInsight[];
 
     return mapped;
   }
