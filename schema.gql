@@ -51,6 +51,7 @@ type Insight {
   _id: String!
   bbox: BBoxResponseApi!
   createAt: DateTime!
+  fileId: String!
   label: String!
   lang: LanguageEnum!
   model: ModelEnum!

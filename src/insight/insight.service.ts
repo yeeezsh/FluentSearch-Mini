@@ -57,6 +57,7 @@ export class InsightService {
       for (const pred of predictions) {
         for (const classPred of pred.classes) {
           await this.insightModel.create({
+            fileId,
             result: classPred.cat,
             model: ModelEnum.detection_600,
             bbox: classPred.bbox,
