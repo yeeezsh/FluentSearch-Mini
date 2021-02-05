@@ -1,17 +1,17 @@
-import { Field, Int, ObjectType } from '@nestjs/graphql';
+import { Field, Float, ObjectType } from '@nestjs/graphql';
 import { BBoxResponseAPI as BBoxResponseApiType } from 'fluentsearch-types';
 
 @ObjectType()
 export class BBoxResponseApi implements BBoxResponseApiType {
-  @Field(() => Int)
+  @Field(() => Float)
   xmax: number;
 
-  @Field(() => Int)
+  @Field(() => Float)
   ymax: number;
 
-  @Field(() => Int)
+  @Field(() => Float)
   ymin: number;
 
-  @Field(() => Int)
+  @Field(() => Float)
   xmin: number;
 }

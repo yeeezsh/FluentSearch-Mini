@@ -1,4 +1,4 @@
-import { Field, Int, ObjectType, registerEnumType } from '@nestjs/graphql';
+import { Field, Float, ObjectType, registerEnumType } from '@nestjs/graphql';
 import {
   InsightSchema as InsightSchemaType,
   LanguageEnum,
@@ -34,7 +34,7 @@ export class Insight implements InsightSchemaType {
   @Field(() => BBoxResponseApi)
   bbox?: BBoxResponseApi | undefined;
 
-  @Field(() => Int)
+  @Field(() => Float)
   prob: number;
 
   @Field(() => LanguageEnum)
