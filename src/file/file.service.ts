@@ -21,8 +21,8 @@ export class FileService {
 
   async getFilesWithInsight(
     userId: string,
-    limit = 100,
     skip = 0,
+    limit = 100,
   ): Promise<ImageFileWithInsight[]> {
     const files = ((await this.fileModel
       .find({ owner: userId })
