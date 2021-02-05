@@ -12,6 +12,7 @@ import {
   ModelEnum,
 } from 'fluentsearch-types';
 import { Model } from 'mongoose';
+import filePathJoin from 'src/common/utils/file-path-join';
 import { APP_CONFIG } from 'src/config/config.constant';
 import { ConfigurationInterface } from 'src/config/config.interface';
 import { INSIGHT_MODEL } from './insight.providers';
@@ -37,7 +38,9 @@ export class InsightService {
           gpu: true,
         },
       },
-      data: [fileId],
+      data: [
+        filePathJoin(this.appConfig.hostname, fileId, this.appConfig.port),
+      ],
     };
 
     const res = (
