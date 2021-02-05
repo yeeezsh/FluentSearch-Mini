@@ -27,6 +27,7 @@ export class InsightService {
   ) {}
   async predict(fileId: string): Promise<void> {
     const MODEL_ENDPOINT = 'detection_600';
+
     const payload: DeepDetectRequestAPI = {
       service: MODEL_ENDPOINT,
       parameters: {
@@ -46,10 +47,10 @@ export class InsightService {
     console.log(payload);
 
     try {
-      const res = (
-        await this.insightML.post(MODEL_ENDPOINT, payload).toPromise()
-      ).data as DeepDetectResponseAPI;
-      const { body, status } = res;
+      const res = (await this.insightML.post('/predict', payload).toPromise())
+        .data as DeepDetectResponseAPI;
+      const { body } = res;
+      console.log(body);
 
       const now = new Date();
       const predictions = body.predictions;
